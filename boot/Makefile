@@ -78,7 +78,7 @@ OBJDIR = obj
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = main.c twi.c
+SRC = main.c
 
 
 # List C++ source files here. (C dependencies are automatically generated.)
@@ -207,9 +207,9 @@ PRINTF_LIB_MIN = -Wl,-u,vfprintf -lprintf_min
 PRINTF_LIB_FLOAT = -Wl,-u,vfprintf -lprintf_flt
 
 # If this is left blank, then it will use the Standard printf version.
-#PRINTF_LIB = 
+PRINTF_LIB = 
 #PRINTF_LIB = $(PRINTF_LIB_MIN)
-PRINTF_LIB = $(PRINTF_LIB_FLOAT)
+#PRINTF_LIB = $(PRINTF_LIB_FLOAT)
 
 # Minimalistic scanf version
 SCANF_LIB_MIN = -Wl,-u,vfscanf -lscanf_min
@@ -218,7 +218,7 @@ SCANF_LIB_MIN = -Wl,-u,vfscanf -lscanf_min
 SCANF_LIB_FLOAT = -Wl,-u,vfscanf -lscanf_flt
 
 # If this is left blank, then it will use the Standard scanf version.
-#SCANF_LIB = 
+SCANF_LIB = 
 #SCANF_LIB = $(SCANF_LIB_MIN)
 #SCANF_LIB = $(SCANF_LIB_FLOAT)
 
@@ -250,7 +250,7 @@ LDFLAGS += $(EXTMEMOPTS)
 LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 #LDFLAGS += -T linker_script.x
 # For bootloader
-#LDFLAGS += -Wl,--section-start=.text=0x1c00
+LDFLAGS += -Wl,--section-start=.text=0x3800
 
 
 
@@ -270,9 +270,16 @@ AVRDUDE_PORT = usb    # programmer connected to serial device
 
 AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
-AVRDUDE_WRITE_EFUSE = -U efuse:w:0x01:m
+
+# bootloader
+AVRDUDE_WRITE_EFUSE = -U efuse:w:0x00:m
 AVRDUDE_WRITE_HFUSE = -U hfuse:w:0xdd:m
 AVRDUDE_WRITE_LFUSE = -U lfuse:w:0xe2:m
+
+# normal
+#AVRDUDE_WRITE_EFUSE = -U efuse:w:0x01:m
+#AVRDUDE_WRITE_HFUSE = -U hfuse:w:0xdd:m
+#AVRDUDE_WRITE_LFUSE = -U lfuse:w:0xe2:m
 
 
 # Uncomment the following if you want avrdude's erase cycle counter.
