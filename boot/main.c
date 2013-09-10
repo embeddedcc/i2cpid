@@ -4,9 +4,9 @@
  * For ATmega168 running internal 8MHz oscillator
  *
  * Board Summary: 
- *   Board carries 4 dual 7 segment LED displays in red and green, PNP BJTs
+ *   Board carries 2 quad 7 segment LED displays in red and green, PNP BJTs
  *   for handling common anode power and all segment outputs are multiplexed
- *   into an ULN2803 driven by AVR PORTD.
+ *   into an ULN2803.
  * 
  * Bootloader:
  *   The program is the TWI bootloader for the board. It implements a super
@@ -18,30 +18,30 @@
  *   BOOT exits the boot loader and starts the user code.
  *
  * Pin Config:
- *   B0		14		CA1		Common anode output for digit 1
- *   B1		15		CA2		Common anode output for digit 2
- *   B2		16		CA3		Common anode output for digit 3
+ *   B0		14		CA1		Common anode output to 3-to-8 pin 1
+ *   B1		15		CA2		Common anode output to 3-to-8 pin 2
+ *   B2		16		CA3		Common anode output to 3-to-8 pin 3
  *   B3		17		MOSI	ICSP in
  *   B4		18		MISO	ICSP out
  *   B5		19		SCK		ICSP clock
  *   AVCC	20		NC		NC
- *   B6		9		CA4		Common anode output for digit 4
- *   B7		10		CA5		Common anode output for digit 5
- *   C0		23		CA6		Common anode output for digit 6
- *   C1		24		CA7		Common anode output for digit 7
- *   C2		25		CA8		Common anode output for digit 8
+ *   B6		9		CA4		Common anode 8 drain (colon 1)
+ *   B7		10		CA5		Common anode 9 drain (colon 2)
+ *   C0		23		CA6		Segment A output to ULN
+ *   C1		24		CA7		Segment B output to ULN
+ *   C2		25		CA8		Segment C output to ULN
  *	 C3		26		ADDR	Input for address set (PCINT11)
  *	 C4		27		SDA		I2C/TWI data
  *   C5		28      SCL		I2C/TWI clock
  *   C6		1		RESET	Reset
- *   D0		2   	SEGB	Segment A drain
- *   D1		3     	SEGC	Segment B drain
- *   D2		4     	SEGA	Segment C drain
- *   D3		5     	SEGD	Segment D drain
- *   D4		6     	SEGE	Segment E drain
- *   D5		11     	SEGF	Segment F drain
- *   D6		12	   	SEGG	Segment G drain
- *   D7		13     	SEGH	Segment H drain
+ *   D0		2   	SEGB	RS-485 RO
+ *   D1		3     	SEGC	RS-485 DI
+ *   D2		4     	SEGA	RS-485 DE
+ *   D3		5     	SEGD	Segment D output to ULN
+ *   D4		6     	SEGE	Segment E output to ULN
+ *   D5		11     	SEGF	Segment F output to ULN
+ *   D6		12	   	SEGG	Segment G output to ULN
+ *   D7		13     	SEGH	Segment H output to ULN
  *   VCC	7		VCC		+5v Power
  *   GND	8		GND		Ground
  *	 GND	22		GND		Ground
