@@ -117,8 +117,8 @@ static const uint8_t led_font[] PROGMEM = {
   LED_SEG_A | LED_SEG_B | LED_SEG_D | LED_SEG_E | LED_SEG_G,
 };
 
-// version number = hardware.software_major.software_minor
-const char str_welcome[] PROGMEM = "btpdv3.3.2";
+// version number = hardware.software.unused, 3.3.1 is historic, next should be 3.4.0
+const char str_welcome[] PROGMEM = "btpdv4.4.0";
 const char str_addr_02x[] PROGMEM = "addr  %02x";
 const char str_float_format[] PROGMEM = "%5.1f";
 const char str_dashes[] PROGMEM = "----";
@@ -260,19 +260,19 @@ void twi_data_recieved(uint8_t* buf, int length) {
 				led_set_string(tmp_s);
 			}
 			else if (buf[1] == INT_MODE) {
-				int16_t *raw;
+				uint16_t *raw;
 				// BCS-460, takes 2 16 bit ints in big endian which are value * 10
 				// 4 bytes total
 				if ((buf[0] == ALL_8_DIGITS) || (buf[0] == UPPER_4_DIGITS)){
-					raw = (int16_t*) &buf[2];
+					raw = (uint16_t*) &buf[2];
 					sprintf_P(line_buf_1, str_float_format, (double) (*raw / 10.0));
 				}
 				if (buf[0] == LOWER_4_DIGITS){
-					raw = (int16_t*) &buf[2];
+					raw = (uint16_t*) &buf[2];
 					sprintf_P(line_buf_2, str_float_format, (double) (*raw / 10.0));
 				}
 				if (buf[0] == ALL_8_DIGITS){
-					raw = (int16_t*) &buf[4];
+					raw = (uint16_t*) &buf[4];
 					sprintf_P(line_buf_2, str_float_format, (double) (*raw / 10.0));
 				}
  				sprintf(tmp_s, "%s%s", line_buf_1, line_buf_2);
@@ -447,7 +447,6 @@ ISR(TIMER0_OVF_vect) {
 }
 
 uint8_t fix_port_d(uint8_t b) {
-	b = (b << 1 | ((b >> 7) & 0x01));
 	return b;
 }
 
