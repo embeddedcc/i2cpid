@@ -119,7 +119,7 @@ static const uint8_t led_font[] PROGMEM = {
 // version number = hardware.software_major.software_minor
 const char str_all_segs[] PROGMEM = "8.8.:8.8.8.8.:8.8.";
 const char str_test_mode[] PROGMEM = "TESTMODE";
-const char str_welcome[] PROGMEM = "pid  v6.6.2";
+const char str_welcome[] PROGMEM = "pid  v6.7.0";
 const char str_addr_02x[] PROGMEM = "addr  %02x";
 const char str_float_format[] PROGMEM = "%5.1f";
 const char str_dashes[] PROGMEM = "----";
@@ -144,6 +144,7 @@ volatile uint8_t led_digit;
 volatile uint8_t led_digit_data[10];
 
 volatile uint16_t debug_led_counter = 0;
+volatile uint8_t initialization_complete = 0;
 
 /**
  * The array below is used to control how long the timer dwells
@@ -242,6 +243,8 @@ int main(void) {
 	twi_setAddress(twi_address);
 	twi_attachSlaveRxEvent(twi_data_recieved);
 	twi_init();
+	
+	initialization_complete = 1;
 	
 	for (;;) {
 	}
@@ -437,6 +440,10 @@ ISR(TIMER1_OVF_vect) {
 	}
 	else {
 		debug_led_counter--;
+	}
+	
+	if(initialization_complete && debug_led_counter <= 250) {
+		led_set_string("no  data");
 	}
 	
 	// Fire again in 1 ms
